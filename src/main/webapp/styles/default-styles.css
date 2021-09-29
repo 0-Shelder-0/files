@@ -6,11 +6,6 @@
     text-align: center;
 }
 
-.icon {
-    width: 3%;
-    height: 3%;
-}
-
 .file-name {
     margin-left: 10px;
     cursor: pointer
@@ -19,4 +14,14 @@
 .small-icon {
     width: 1%;
     height: 1%;
+}
+
+.file-icon {
+    width: 2%;
+    height: 2%;
+}
+
+.directory-icon {
+    width: 3%;
+    height: 3%;
 }

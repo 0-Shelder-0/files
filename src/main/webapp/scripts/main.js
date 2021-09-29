@@ -10,6 +10,16 @@ function setPath(event) {
     window.location.replace(url);
 }
 
+function getFile(event) {
+    const queryParams = getQueryParams();
+    const path = queryParams["path"];
+    const origin = window.location.origin;
+    const value = event.target.innerHTML;
+    const url = `${origin}/download?path=${path}${value}`;
+
+    window.location.replace(url);
+}
+
 function moveBack() {
     const queryParams = getQueryParams();
     const pathItems = queryParams['path'].split('/');

@@ -17,32 +17,43 @@
     <img src="images/back.png" class="small-icon" alt="back"/>
     <a class="file-name" onclick="moveBack()">Вверх</a>
 </div>
-<table>
-    <colgroup>
-        <col class="col-width">
-        <col class="col-width">
-        <col class="col-width">
-    </colgroup>
-    <tr>
-        <th>Файл</th>
-        <th>Размер</th>
-        <th>Дата</th>
-    </tr>
-    <c:forEach var="file" items="${files}">
+<c:if test="${files.size() != 0}">
+    <table>
+        <colgroup>
+            <col class="col-width">
+            <col class="col-width">
+            <col class="col-width">
+        </colgroup>
         <tr>
-            <td>
-                <c:if test="${file.isFile}">
-                    <img src="images/file.png" class="icon" alt="file-icon"/>
-                </c:if>
-                <c:if test="${!file.isFile}">
-                    <img src="images/directory.png" class="icon" alt="directory-icon"/>
-                </c:if>
-                <a class="file-name" onclick="setPath(event)">${file.name}</a>
-            </td>
-            <td class="text-center">${file.size}</td>
-            <td class="text-center">${file.createdDate}</td>
+            <th>Файл</th>
+            <th>Размер</th>
+            <th>Дата</th>
         </tr>
-    </c:forEach>
-</table>
+        <c:forEach var="file" items="${files}">
+            <tr>
+                <td>
+                    <c:if test="${file.isFile}">
+                        <img
+                            src="https://i.pinimg.com/originals/d0/78/22/d078228e50c848f289e39872dcadf49d.png"
+                            class="file-icon"
+                            alt="file-icon"
+                        />
+                        <a class="file-name" onclick="getFile(event)">${file.name}</a>
+                    </c:if>
+                    <c:if test="${!file.isFile}">
+                        <img
+                            src="https://www.kindpng.com/picc/m/200-2007626_file-icon-hd-png-download.png"
+                            class="directory-icon"
+                            alt="directory-icon"
+                        />
+                        <a class="file-name" onclick="setPath(event)">${file.name}</a>
+                    </c:if>
+                </td>
+                <td class="text-center">${file.size}</td>
+                <td class="text-center">${file.createdDate}</td>
+            </tr>
+        </c:forEach>
+    </table>
+</c:if>
 </body>
 </html>

@@ -16,11 +16,11 @@ public class FileModel {
 
     public FileModel(File file) throws IOException {
         _name = file.getName();
-        _size = file.getTotalSpace();
+        _size = file.length();
         _isFile = file.isFile();
 
-        BasicFileAttributes attr = Files.readAttributes(file.toPath(), BasicFileAttributes.class);
-        Date lastModified = Date.from(attr.lastModifiedTime().toInstant());
+        BasicFileAttributes attributes = Files.readAttributes(file.toPath(), BasicFileAttributes.class);
+        Date lastModified = Date.from(attributes.lastModifiedTime().toInstant());
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
         _createdDate = dateFormat.format(lastModified);
     }
