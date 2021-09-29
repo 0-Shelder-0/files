@@ -1,0 +1,22 @@
+.col-width {
+    width: 15%;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.icon {
+    width: 3%;
+    height: 3%;
+}
+
+.file-name {
+    margin-left: 10px;
+    cursor: pointer
+}
+
+.small-icon {
+    width: 1%;
+    height: 1%;
+}
