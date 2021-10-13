@@ -2,7 +2,6 @@ package com.files.servlets;
 
 import com.files.services.AuthorizationService;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,7 +16,9 @@ public class LogoutServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String sessionKey = req.getSession().getId();
+        _authorizationService.logout(sessionKey);
+        resp.sendRedirect("/login");
     }
 }

@@ -54,3 +54,12 @@ function getQueryParams() {
 
     return queryParams;
 }
+
+function logout() {
+    fetch('/logout', { method: 'POST', redirect: 'follow' })
+        .then(response => {
+            if (response.redirected) {
+                window.location.replace(response.url);
+            }
+        });
+}

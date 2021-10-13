@@ -5,10 +5,18 @@ import java.util.Objects;
 public class User {
     private final String _login;
     private final String _password;
+    private final String _email;
+
+    public User(String login, String password, String email) {
+        _login = login;
+        _password = password;
+        _email = email;
+    }
 
     public User(String login, String password) {
         _login = login;
         _password = password;
+        _email = null;
     }
 
     public String getLogin() {
@@ -17,6 +25,10 @@ public class User {
 
     public String getPassword() {
         return _password;
+    }
+
+    public String getEmail() {
+        return _email;
     }
 
     @Override
@@ -29,7 +41,7 @@ public class User {
             return false;
         }
 
-        User user = (User)obj;
+        User user = (User) obj;
         return Objects.equals(user.getLogin(), _login) && Objects.equals(user.getPassword(), _password);
     }
 

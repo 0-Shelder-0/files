@@ -32,6 +32,10 @@ public class AuthorizationService {
         }
     }
 
+    public String getLogin(String sessionKey) {
+        return _userBySessionKeyMap.get(sessionKey).getLogin();
+    }
+
     public void logout(String sessionKey) {
         _userBySessionKeyMap.remove(sessionKey);
     }

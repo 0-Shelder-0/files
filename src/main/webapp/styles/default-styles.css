@@ -25,3 +25,8 @@
     width: 3%;
     height: 3%;
 }
+
+.signup {
+    color: dodgerblue;
+    cursor: pointer;
+}

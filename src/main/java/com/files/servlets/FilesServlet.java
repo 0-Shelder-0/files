@@ -19,16 +19,17 @@ import java.util.stream.Collectors;
 
 public class FilesServlet extends HttpServlet {
 
+    private final String BaseDirectory;
     private final AuthorizationService _authorizationService;
 
-    public FilesServlet(AuthorizationService authorizationService) {
+    public FilesServlet(AuthorizationService authorizationService, String baseDirectory) {
         _authorizationService = authorizationService;
+        BaseDirectory = baseDirectory;
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String sessionKey = req.getSession().getId();
-        String templatePath = "templates/index.jsp";
 
         if (_authorizationService.isLogin(sessionKey)) {
             DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy hh:mm:ss");
@@ -37,15 +38,25 @@ public class FilesServlet extends HttpServlet {
 
             Object pathAttribute = req.getParameter("path");
             String directoryPath = pathAttribute != null ? pathAttribute.toString() : "/";
+            String login = _authorizationService.getLogin(sessionKey);
+            directoryPath = BaseDirectory + login + directoryPath;
             req.setAttribute("path", directoryPath);
 
+            createDirectoryIfNotExist(directoryPath);
             List<FileModel> files = getFiles(directoryPath);
             req.setAttribute("files", files);
 
-            templatePath = "templates/files.jsp";
+            req.getRequestDispatcher("templates/files.jsp").forward(req, resp);
+        } else {
+            resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "User not authorized");
         }
+    }
 
-        req.getRequestDispatcher(templatePath).forward(req, resp);
+    private void createDirectoryIfNotExist(String path) {
+        File folder = new File(path);
+        if (!folder.exists()) {
+            folder.mkdirs();
+        }
     }
 
     private List<FileModel> getFiles(String path) {
