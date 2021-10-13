@@ -1,4 +1,4 @@
-package com.files.entities;
+package com.files.models;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,6 +1,8 @@
 package com.files.servlets;
 
-import javax.servlet.annotation.WebServlet;
+import com.files.services.AuthorizationService;
+
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,12 +12,22 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Path;
 
-@WebServlet(name = "download", urlPatterns = "/download")
 public class DownloadServlet extends HttpServlet {
-    private static final int BufferSize = 1048;
+
+    private static final int BufferSize = 4096;
+    private final AuthorizationService _authorizationService;
+
+    public DownloadServlet(AuthorizationService authorizationService) {
+        _authorizationService = authorizationService;
+    }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        String sessionKey = req.getSession().getId();
+        if (!_authorizationService.isLogin(sessionKey)) {
+            throw new ServletException("User not authorized");
+        }
+
         Object pathAttribute = req.getParameter("path");
         String path = pathAttribute != null ? pathAttribute.toString() : "/";
         String fileName = Path.of(path).getFileName().toString();

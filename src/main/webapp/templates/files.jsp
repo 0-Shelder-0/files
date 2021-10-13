@@ -5,8 +5,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="styles/default-styles.css">
-    <script src="scripts/main.js"></script>
+    <link rel="stylesheet" href="../styles/default-styles.css">
+    <script src="../scripts/main.js"></script>
 </head>
 <body>
 <h2>${appTime}</h2>
@@ -14,7 +14,7 @@
 <h1>${path}</h1>
 <hr/>
 <div>
-    <img src="images/back.png" class="small-icon" alt="back"/>
+    <img src="../images/back.png" class="small-icon" alt="back"/>
     <a class="file-name" onclick="moveBack()">Вверх</a>
 </div>
 <c:if test="${files.size() != 0}">

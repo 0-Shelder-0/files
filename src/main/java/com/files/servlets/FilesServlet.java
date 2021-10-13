@@ -1,9 +1,9 @@
 package com.files.servlets;
 
-import com.files.entities.FileModel;
+import com.files.models.FileModel;
+import com.files.services.AuthorizationService;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,23 +17,35 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-@WebServlet(name = "files", urlPatterns = "/files")
 public class FilesServlet extends HttpServlet {
+
+    private final AuthorizationService _authorizationService;
+
+    public FilesServlet(AuthorizationService authorizationService) {
+        _authorizationService = authorizationService;
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy hh:mm:ss");
-        String strDate = dateFormat.format(new Date());
-        req.setAttribute("appTime", strDate);
+        String sessionKey = req.getSession().getId();
+        String templatePath = "templates/index.jsp";
 
-        Object pathAttribute = req.getParameter("path");
-        String path = pathAttribute != null ? pathAttribute.toString() : "/";
-        req.setAttribute("path", path);
+        if (_authorizationService.isLogin(sessionKey)) {
+            DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy hh:mm:ss");
+            String strDate = dateFormat.format(new Date());
+            req.setAttribute("appTime", strDate);
 
-        List<FileModel> files = getFiles(path);
-        req.setAttribute("files", files);
+            Object pathAttribute = req.getParameter("path");
+            String directoryPath = pathAttribute != null ? pathAttribute.toString() : "/";
+            req.setAttribute("path", directoryPath);
 
-        req.getRequestDispatcher("files.jsp").forward(req, resp);
+            List<FileModel> files = getFiles(directoryPath);
+            req.setAttribute("files", files);
+
+            templatePath = "templates/files.jsp";
+        }
+
+        req.getRequestDispatcher(templatePath).forward(req, resp);
     }
 
     private List<FileModel> getFiles(String path) {
