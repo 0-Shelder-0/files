@@ -11,8 +11,8 @@
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
         crossorigin="anonymous"
     >
-    <link rel="stylesheet" href="../styles/default-styles.css">
-    <script src="../scripts/filesScript.js"></script>
+    <link rel="stylesheet" href="/styles/default-styles.css">
+    <script src="/scripts/filesScript.js"></script>
 </head>
 <body>
 <div class="container">
@@ -24,7 +24,7 @@
     <h1>${path}</h1>
     <hr/>
     <div>
-        <img src="../images/back.png" class="small-icon" alt="back"/>
+        <img src="/images/back.png" class="small-icon" alt="back"/>
         <a class="file-name" onclick="moveBack()">Вверх</a>
     </div>
     <c:if test="${files.size() != 0}">

@@ -7,7 +7,7 @@ function setPath(event) {
     } else {
         url = window.location.href + `${param}/${value}/`;
     }
-    window.location.replace(url);
+    window.location.assign(url);
 }
 
 function getFile(event) {
@@ -17,7 +17,7 @@ function getFile(event) {
     const value = event.target.innerHTML;
     const url = `${origin}/download?path=${path}${value}`;
 
-    window.location.replace(url);
+    window.location.assign(url);
 }
 
 function moveBack() {
@@ -30,7 +30,7 @@ function moveBack() {
         .join('&');
 
     const url = `${window.location.origin}${window.location.pathname}?${queryString}`;
-    window.location.replace(url);
+    window.location.assign(url);
 }
 
 function pathJoin(parts) {
@@ -59,7 +59,7 @@ function logout() {
     fetch('/logout', { method: 'POST', redirect: 'follow' })
         .then(response => {
             if (response.redirected) {
-                window.location.replace(response.url);
+                window.location.assign(response.url);
             }
         });
 }

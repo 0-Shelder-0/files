@@ -2,19 +2,33 @@ package com.files.services;
 
 import com.files.models.User;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 
 public class AuthorizationService {
-    private final Map<String, User> _userByLoginMap = new HashMap<>();
+    private final Connection _connection;
     private final Map<String, User> _userBySessionKeyMap = new HashMap<>();
 
+    public AuthorizationService(Connection connection) {
+        _connection = connection;
+    }
+
     public void register(User user) throws Exception {
-        String login = user.getLogin();
-        if (!_userByLoginMap.containsKey(login)) {
-            _userByLoginMap.put(login, user);
-        } else {
+        User existedUser = getUserByLogin(user.getLogin());
+        if (existedUser != null) {
             throw new Exception("This login already exists");
+        }
+
+        try (Statement statement = _connection.createStatement()) {
+            statement.execute(String.format(
+                    "insert into files.users (Login, Email, Password) values ('%s', '%s', '%s')",
+                    user.getLogin(),
+                    user.getEmail(),
+                    user.getPassword()));
         }
     }
 
@@ -22,9 +36,9 @@ public class AuthorizationService {
         return _userBySessionKeyMap.containsKey(sessionKey);
     }
 
-    public void login(String sessionKey, User user) throws Exception {
+    public void login(String sessionKey, User user) throws RuntimeException, SQLException {
         if (!containsUser(user)) {
-            throw new Exception("User not exists");
+            throw new RuntimeException("User not exists");
         }
 
         if (!_userBySessionKeyMap.containsKey(sessionKey)) {
@@ -40,13 +54,24 @@ public class AuthorizationService {
         _userBySessionKeyMap.remove(sessionKey);
     }
 
-    private boolean containsUser(User user) {
-        String login = user.getLogin();
-        if (!_userByLoginMap.containsKey(login)) {
-            return false;
-        }
+    private User getUserByLogin(String searchLogin) throws SQLException {
+        try (Statement statement = _connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery(String.format("select * from files.users where Login = '%s'", searchLogin));
 
-        User existedUser = _userByLoginMap.get(login);
-        return existedUser.equals(user);
+            if (resultSet.next() && resultSet.isLast()) {
+                String login = resultSet.getString("Login");
+                String password = resultSet.getString("Password");
+                String email = resultSet.getString("Email");
+
+                return new User(login, password, email);
+            } else {
+                return null;
+            }
+        }
+    }
+
+    private boolean containsUser(User user) throws SQLException {
+        User existedUser = getUserByLogin(user.getLogin());
+        return existedUser != null && existedUser.equals(user);
     }
 }

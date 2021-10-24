@@ -1,4 +1,3 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>Register</title>
@@ -8,8 +7,8 @@
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
         crossorigin="anonymous"
     >
-    <link rel="stylesheet" href="../styles/default-styles.css">
-    <script src="../scripts/loginScript.js"></script>
+    <link rel="stylesheet" href="/styles/default-styles.css">
+    <script src="/scripts/authorizationScript.js"></script>
 </head>
 <body>
 <div class="container">
@@ -52,6 +51,13 @@
                         <button type="submit" class="btn btn-dark float-end">Sign up</button>
                     </div>
                 </form>
+                <hr class="mt-4">
+                <div class="col-12">
+                    <p class="text-center mb-0">
+                        Already registered?
+                        <a class="authorization-reference" onclick="moveToLogin()">Log in</a>
+                    </p>
+                </div>
             </div>
         </div>
     </div>
