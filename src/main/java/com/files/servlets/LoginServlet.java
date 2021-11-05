@@ -1,6 +1,6 @@
 package com.files.servlets;
 
-import com.files.models.User;
+import com.files.models.UserModel;
 import com.files.services.AuthorizationService;
 
 import javax.servlet.ServletException;
@@ -37,7 +37,7 @@ public class LoginServlet extends HttpServlet {
             if (login.length() == 0 || password.length() == 0) {
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Login and password can't be empty");
             } else {
-                User user = new User(login, password);
+                UserModel user = new UserModel(login, password);
                 try {
                     _authorizationService.login(sessionKey, user);
                     resp.sendRedirect("/files");

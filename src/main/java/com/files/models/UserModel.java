@@ -1,22 +1,30 @@
 package com.files.models;
 
+import com.files.dbService.entities.User;
+
 import java.util.Objects;
 
-public class User {
+public class UserModel {
     private final String _login;
     private final String _password;
     private final String _email;
 
-    public User(String login, String password, String email) {
+    public UserModel(String login, String password, String email) {
         _login = login;
         _password = password;
         _email = email;
     }
 
-    public User(String login, String password) {
+    public UserModel(String login, String password) {
         _login = login;
         _password = password;
         _email = null;
+    }
+
+    public UserModel(User user) {
+        _login = user.getLogin();
+        _password = user.getPassword();
+        _email = user.getEmail();
     }
 
     public String getLogin() {
@@ -37,11 +45,11 @@ public class User {
             return true;
         }
 
-        if (!(obj instanceof User)) {
+        if (!(obj instanceof UserModel)) {
             return false;
         }
 
-        User user = (User) obj;
+        UserModel user = (UserModel) obj;
         return Objects.equals(user.getLogin(), _login) && Objects.equals(user.getPassword(), _password);
     }
 

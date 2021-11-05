@@ -1,6 +1,6 @@
 package com.files.servlets;
 
-import com.files.models.User;
+import com.files.models.UserModel;
 import com.files.services.AuthorizationService;
 
 import javax.servlet.ServletException;
@@ -38,7 +38,7 @@ public class RegisterServlet extends HttpServlet {
             if (login.length() == 0 || password.length() == 0 || email.length() == 0) {
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Login, email and password can't be empty");
             } else {
-                User user = new User(login, password, email);
+                UserModel user = new UserModel(login, password, email);
                 try {
                     _authorizationService.register(user);
                     _authorizationService.login(sessionKey, user);
